@@ -11,6 +11,22 @@ use App\Models\Orders;
 
 class OrderController extends Controller
 {
+    public function index()
+    {
+        $orders = Orders::where('status', '0')->get();
+        return view('admin.order.index', compact('orders'));
+    }
+    public function viewOrder($id)
+    {
+        $order = Orders::find($id);
+
+    if (!$order) {
+        // Handle case where order is not found, such as redirecting or showing an error message
+        return redirect()->route('route_to_handle_not_found');
+    }
+
+    return view('admin.order.vieworder', compact('order'));
+    }
     public function saveOrder(Request $request)
     {
         $validatedData = $request->validate([
